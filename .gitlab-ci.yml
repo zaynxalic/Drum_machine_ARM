@@ -1,0 +1,23 @@
+image: johnjz/comp2300-ci:2019-latest
+
+build-check:
+  tags:
+    - comp2300
+  script:
+    - mv /pio-proj-template/.pioenvs .
+    - pio run --disable-auto-clean
+
+statement-of-originality:
+  tags:
+    - comp2300
+  script:
+    - python3 /validate.py --schema https://cs.anu.edu.au/courses/comp2300/assets/schemas/statement-of-originality.json ./statement-of-originality.yml
+
+design-document:
+  tags:
+    - comp2300
+  only:
+    refs:
+      - part-2
+  script:
+    - python3 /validate.py --exists ./design-document.pdf
