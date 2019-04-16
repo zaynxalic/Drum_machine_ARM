@@ -12,13 +12,14 @@ loop:
   ldr r7,=#24000
   bl node_do
   bl sound_pause
-  ldr r7,=#12000
+  ldr r7,=#36000
   bl node_fa_change_initial
+  ldr r7,=#12000
   bl sound_pause
   bl change_time
   bl node_do
-  bl sound_pause
   ldr r7,=#24000
+  bl sound_pause
   bl node_so
   bl sound_pause
   b loop
@@ -43,14 +44,16 @@ node_do:
 
 node_fa_change_initial:
   str lr,[sp,#-4]!
+  cmp r6,#41 //if r6 greater or equal than 41 then branch to node_fa_change
+  bge node_fa_change
 
 node_fa_initial:
-  mov r6,#40 //set the frequency 48000/587.33/2 hz
+  mov r6,#40 
   b node_fa_change
 
 node_fa_change:
-  add r6,#1
-  cmp r6,#55
+  add r6,#1 //set the frequency 48000/587.33/2 hz - 48000/440/2 hz
+  cmp r6,#56
   beq node_fa_initial
   b sequence_up_initial
 
