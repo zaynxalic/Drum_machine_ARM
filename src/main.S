@@ -4,141 +4,95 @@
 .type main, %function
 main:
   bl init
-  ldr r6,=#24000 //set r6 = 12000, 12000 = 48000*0.25
-  mov r8,r6
-  str r8,[sp,#-4]!
+  ldr r7,=#24000
+  mov r0,r7
+  str r0,[sp,#-4]!
+
 loop:
-  ldr r6,=#24000
-  bl sequence_do_initial
+  ldr r7,=#24000
+  bl node_do
+  bl sound_pause
+  ldr r7,=#12000
+  bl node_fa_change_initial
   bl sound_pause
   bl change_time
-  bl sequence_fa_initial
+  bl node_do
   bl sound_pause
-  ldr r6,=#12000
-  bl sequence_do_initial
-  bl sound_pause
-  ldr r6,=#24000
-  bl sequence_so_initial
+  ldr r7,=#24000
+  bl node_so
   bl sound_pause
   b loop
 
-sequence_do_initial:
-  str lr,[sp,#-4]!
-  mov r10,#0 
-  mov r11,#0 
-  b sequence_do
+change_time://change the r0
+  ldr r0,[sp],#4
+  subs r0,#1000
+  beq initial_time
+  movs r7,r0
+  str r0,[sp,#-4]!
+  bx lr
 
-sequence_do:
-  bl sequence_do_1 
-  bl sequence_do_2
-  b sequence_do
+initial_time:
+  mov r0,r7
+  str r0,[sp,#-4]!
+  bx lr
 
-sequence_do_1: 
+node_do:
   str lr,[sp,#-4]!
-  mov r4,#56 
-  mov r5,#6
+  mov r6,#55  //set the frequency 48000/440/2 hz
   b sequence_up_initial
 
-sequence_do_2: 
+node_fa_change_initial:
   str lr,[sp,#-4]!
-  mov r4,#55
-  mov r5,#5
+
+node_fa_initial:
+  mov r6,#40 //set the frequency 48000/587.33/2 hz
+  b node_fa_change
+
+node_fa_change:
+  add r6,#1
+  cmp r6,#55
+  beq node_fa_initial
   b sequence_up_initial
 
-sequence_fa_initial:
+node_so:
   str lr,[sp,#-4]!
-  mov r10,#0 
-  mov r11,#0 
-  b sequence_fa
-
-sequence_fa:
-  bl sequence_fa_1 
-  bl sequence_fa_2
-  b sequence_fa
-
-sequence_fa_1: 
-  str lr,[sp,#-4]!
-  mov r4,#42 
-  mov r5,#760
+  mov r6,#36 //set the frequency 48000/659.33/2 hz
   b sequence_up_initial
 
-sequence_fa_2: 
-  str lr,[sp,#-4]!
-  mov r4,#41
-  mov r5,#81
-  b sequence_up_initial
-
-sequence_so_initial:
-  str lr,[sp,#-4]!
-  mov r10,#0 
-  mov r11,#0 
-  b sequence_so
-
-sequence_so:
-  bl sequence_so_1 
-  bl sequence_so_2
-  b sequence_so
-
-sequence_so_1: 
-  str lr,[sp,#-4]!
-  mov r4,#38 
-  mov r5,#396
-  b sequence_up_initial
-
-sequence_so_2: 
-  str lr,[sp,#-4]!
-  mov r4,#37
-  mov r5,#593
-  b sequence_up_initial
-
-branch_to_sequence:
+branch_to_loop:
+  mov r5,#0
   ldr lr,[sp],#4
   bx lr
-@ for this part, if r11 equals r5 then branch to sequence
-branch_to_loop:
-  mov r7,#0
-  mov r9,#0   //initialize r7,r9
-  add sp,#4 //first sp= sp+4 
-  ldr lr,[sp],#4 //then get the value lr in the address of sp and sp +4
-  bx lr
-@ for this part, if r10 counter equals 12000 or 24000 then it will jump back to the loop
+
 sequence_up_initial:
-  mov r7, #0 //inital r7 = 0 counter r7 which is how many times bl to the autio
-  mov r9, #0 //inital r9 = 0 counter r9 which is how much time to move from up to downside
+  mov r4,#0
   b sequence_up
 
 sequence_up:
   ldr r0,=0x5F00
   bl BSP_AUDIO_OUT_Play_Sample
-  add r10,#1
-  cmp r10,r6
+  add r5,#1
+  cmp r5,r7
   beq branch_to_loop
-  add r7,#1
-  cmp r7,r4
-  beq sequence_down_initial 
+  add r4,#1
+  cmp r4,r6
+  beq sequence_down_initial
   b sequence_up
 
 sequence_down_initial:
-  mov r7, #0
-  mov r9, #0 
+  mov r4,#0
   b sequence_down
 
 sequence_down:
   ldr r0,=0xA0FF
   bl BSP_AUDIO_OUT_Play_Sample
-  add r10,#1
-  cmp r10,r6
+  add r5,#1
+  cmp r5,r7
   beq branch_to_loop
-  add r7,#1
-  cmp r7,r4
-  beq loop_n_times  
+  add r4,#1
+  cmp r4,r6
+  beq sequence_up_initial
   b sequence_down
-
-loop_n_times:
-  add r11,#1
-  cmp r11,r5 
-  beq branch_to_sequence
-  b sequence_up_initial
 
 sound_pause:
   str lr,[sp,#-4]!
@@ -147,21 +101,10 @@ sound_pause:
 no_music:
   movs r0,0
   bl BSP_AUDIO_OUT_Play_Sample
-  add r9,#1
-  cmp r9,r6
-  beq branch_to_sequence
+  add r5,#1
+  cmp r5,r7
+  beq branch_to_loop
   b no_music
 
-change_time://change the r6 
-  ldr r8,[sp],#4
-  subs r8,#1000
-  beq initial_time
-  movs r6,r8
-  str r8,[sp,#-4]!
-  bx lr
 
-initial_time:
-  mov r8,r6
-  str r8,[sp,#-4]!
-  bx lr
 .size main, .-main
