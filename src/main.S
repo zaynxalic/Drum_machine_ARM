@@ -7,6 +7,7 @@ main:
   ldr r7,=#24000
   mov r0,r7
   str r0,[sp,#-4]!
+  mov r8,#40
 
 loop:
   ldr r7,=#24000
@@ -44,19 +45,18 @@ node_do:
 
 node_fa_change_initial:
   str lr,[sp,#-4]!
-  cmp r6,#41 //if r6 greater or equal than 41 then branch to node_fa_change
-  bge node_fa_change
-
-node_fa_initial:
-  mov r6,#40 
   b node_fa_change
 
+node_fa_initial:
+  mov r8,#40
+
 node_fa_change:
-  add r6,#1 //set the frequency 48000/587.33/2 hz - 48000/440/2 hz
-  cmp r6,#56
+  add r8,#1
+  mov r6,r8
+  cmp r8,#56
   beq node_fa_initial
   b sequence_up_initial
-
+  
 node_so:
   str lr,[sp,#-4]!
   mov r6,#36 //set the frequency 48000/659.33/2 hz
