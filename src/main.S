@@ -5,17 +5,20 @@
 main:
   bl init
   ldr r6,=#24000 //set r6 = 12000, 12000 = 48000*0.25
-
+  mov r8,r6
+  str r8,[sp,#-4]!
 loop:
+  ldr r6,=#24000
   bl sequence_do_initial
   bl sound_pause
+  bl change_time
   bl sequence_fa_initial
   bl sound_pause
+  ldr r6,=#12000
   bl sequence_do_initial
   bl sound_pause
+  ldr r6,=#24000
   bl sequence_so_initial
-  bl sound_pause
-  bl sequence_do_initial
   bl sound_pause
   b loop
 
@@ -149,4 +152,16 @@ no_music:
   beq branch_to_sequence
   b no_music
 
+change_time://change the r6 
+  ldr r8,[sp],#4
+  subs r8,#1000
+  beq initial_time
+  movs r6,r8
+  str r8,[sp,#-4]!
+  bx lr
+
+initial_time:
+  mov r8,r6
+  str r8,[sp,#-4]!
+  bx lr
 .size main, .-main
