@@ -305,9 +305,9 @@ sin_wave_5:
 @ The data is the output in java programming according to the ADSR principle of the envelope wave.
 /*
 @ the first part is C*x*sin(pi*x/w) w is the semi-periods of sin wave
-  the second part is (C1-C2*x)*sin(pi*x/w) w is the semi-periods of sin wave
+  the second part is (-C1) * (x-C2) * sin(pi*x/w) w is the semi-periods of sin wave
   the third part is C*sin(pi*x/w) w is the semi-periods of sin wave
-  the fourth part is (C1-C2*x)*sin(pi*x/w) w is the semi-periods of sin wave
+  the fourth part is (-C1) * (x-C2) * sin(pi*x/w) w is the semi-periods of sin wave
 
 for(int i=0;i<N;i++) {
 			float p = C*i;

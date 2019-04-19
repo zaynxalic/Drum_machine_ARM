@@ -16,7 +16,8 @@ assets:
     url: "http://www.zytrax.com/tech/audio/audio.html"
   - comment: get the principle of the envelope wawve (ADSR)
     url: "https://blog.landr.com/adsr-envelopes-infographic/"
-  
+  - comment: know the shape of the function
+    url: "https://www.desmos.com/calculator/hcamzyeujj"
 
 # sign *your* name and uid here
 name: Xuecheng Zhang
