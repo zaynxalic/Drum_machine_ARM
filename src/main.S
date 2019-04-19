@@ -63,6 +63,13 @@ drum_wave_set:
   @ load the data from sp memory to lr, sp = sp+4
   bx lr
   @ back to the drum wave
+  /*	drum:100hz,
+      bass:80hz,
+      snare:240hz,
+      toms:210hz,
+      cymbal:4000hz
+  */
+  
 
 change_time://change the r0
   ldr r0,[sp],#4
