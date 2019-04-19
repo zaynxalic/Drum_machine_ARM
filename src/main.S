@@ -52,7 +52,6 @@ drum_wave_set:
   bl start_drum_wave_3
   bl sound_pause
   bl start_drum_wave_2
-  ldr r7,=#12000
   bl sound_pause
   ldr r7,=#24000
   bl start_drum_wave_5
