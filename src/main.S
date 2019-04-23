@@ -7,6 +7,7 @@
 .type main, %function
 
 /*
+  r1,r2 are temporary registers 
   r4 is a counter related to r6
   r5 is a counter related to r7
   r6 is a number which stands for how many times to run in the semiperiods/periods
