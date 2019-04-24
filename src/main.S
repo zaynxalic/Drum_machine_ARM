@@ -189,19 +189,23 @@ sin_wave_harmony_initial:
   mov r4,#0
   mov r9,#0
 
+@ push lr into stack and give r10, r11 the initial label memory address and initialize r4,r9
 sin_harmony_wave_1:
   ldr r0,[r10]
   mov r6,#184
   add r10,#2
+  @ r10 = r10 + 2, so that r0 can load the hword in next two memory cell
   add r4,#1
   cmp r4,r6
   beq sin_harmony_wave_1_initial
   b sin_harmony_wave_2
 
+@ load the number in the address to register r0 and add r4 counter one and compare r4 and r6, if r6 = r4, branch to sin_harmony_wave_1_initial which initialize r4 and memory address r10
 sin_harmony_wave_1_initial:
   ldr r10 ,= sin_wave1_harmony
   mov r4,#0
   b sin_harmony_wave_1
+@ initialize
 
 sin_harmony_wave_2:
   ldr r1,[r11]
@@ -217,6 +221,7 @@ sin_harmony_wave_2:
   add r11,#2
   b sin_harmony_wave_1
 
+@ load the number in the address to register r1 and add r9 counter one and compare r9 and r6, if r6 = r9, branch to sin_harmony_wave_2_initial which initialize r9 and memory address r11
 sin_harmony_wave_2_initial:
   ldr r11 ,= sin_wave2_harmony
   mov r9,#0
@@ -224,13 +229,17 @@ sin_harmony_wave_2_initial:
 
 sin_chord_wave_initial:
   str lr,[sp,#-4]!
-  str r8,[sp,#-4]!
+  str r8,[sp,#-4]! 
   ldr r10 ,= sin_wave1_chord
   ldr r11 ,= sin_wave2_chord
   ldr r12 ,= sin_wave3_chord
   mov r4,#0
   mov r9,#0
   mov r8,#0
+
+@ as r8 is used as before, so first save the r8 register into stack and then after the process load r8 register out of the stack
+@ initialize r10,r11,r12 as label memory address
+@ initialize r4,r9,r8
 
 sin_chord_wave_1:
   ldr r0,[r10]
@@ -246,6 +255,8 @@ sin_chord_wave_1_initial:
   mov r4,#0
   b sin_chord_wave_1
 
+@ load the number in the address to register r0 and add r9 counter one and compare r4 and r6, if r6 = r4, branch to sin_harmony_wave_2_initial which initialize r4 and memory address r10
+
 sin_chord_wave_2:
   ldr r1,[r11]
   mov r6,#146
@@ -259,6 +270,8 @@ sin_chord_wave_2_initial:
   ldr r11 ,= sin_wave2_chord
   mov r9,#0
   b sin_chord_wave_2
+
+@ load the number in the address to register r1 and add r9 counter one and compare r9 and r6, if r6 = r9, branch to sin_harmony_wave_2_initial which initialize r9 and memory address r11
 
 sin_chord_wave_3:
   ldr r2,[r12]
@@ -279,6 +292,8 @@ sin_chord_wave_3_initial:
   ldr r12 ,= sin_wave3_chord
   mov r8,#0
   b sin_chord_wave_3
+
+@ load the number in the address to register r2 and add r9 counter one and compare r8 and r6, if r6 = r8, branch to sin_harmony_wave_2_initial which initialize r8 and memory address r12
 
 start_drum_wave_1:
   str lr,[sp,#-4]!
