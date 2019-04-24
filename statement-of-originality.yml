@@ -9,15 +9,7 @@ declaration: >-
 
 
 
-# add as many "url+licence+comment" entries as necessary
-# (or remove it altogether if you haven't used any external assets)
-assets:
-  - comment: get the frequency of different drum wave
-    url: "http://www.zytrax.com/tech/audio/audio.html"
-  - comment: get the principle of the envelope wawve (ADSR)
-    url: "https://blog.landr.com/adsr-envelopes-infographic/"
-  - comment: know the shape of the function
-    url: "https://www.desmos.com/calculator/hcamzyeujj"
+
 
 # sign *your* name and uid here
 name: Xuecheng Zhang
