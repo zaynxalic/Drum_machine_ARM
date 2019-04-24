@@ -2,9 +2,6 @@
 .global main
 .type main, %function
 
-.syntax unified
-.global main
-.type main, %function
 
 /*
   r1,r2 are temporary registers 
