@@ -389,6 +389,15 @@ drum_wave_snare_initial:
   mov r3,#200
   mov r9,#400
   push {r0-r3,r9}
+    /*r0-r3,r9 are parameters,
+    r8 is keeping adding 4 in the Attack part
+    r8 is keeping substracting 1 in the Decay part
+    r8 is stable in the sustain part
+    r8 is keeping substacting 2 in the release part
+    r3 is how many times in the waveform cycle
+    A:D:S:R = 1:2:4:1
+    r9 is how many times in the attack part
+  */
   b drum_wave_attack
 
 drum_wave_toms_initial:
@@ -430,6 +439,15 @@ drum_wave_cymbal_initial:
   mov r3,#12
   mov r9,#300
   push {r0-r3,r9}
+    /*r0-r3,r9 are parameters,
+    r8 is keeping adding 4 in the Attack part
+    r8 is keeping substracting 1 in the Decay part
+    r8 is stable in the sustain part
+    r8 is keeping substacting 2 in the release part
+    r3 is how many times in the waveform cycle
+    A:D:S:R = 1:2:4:1
+    r9 is how many times in the attack part
+  */
   b drum_wave_attack
 
 drum_wave_harmony_initial:
