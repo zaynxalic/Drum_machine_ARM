@@ -11,7 +11,8 @@
   r8 is a number which controls the frequency of the note fa
   r8 is also a counter related to r6
   r9 is a counter related to r6 or a temporary register
-  r10-r12 is the label memory address of the instruction 
+  r10-r12 is the label memory address of the instruction
+  r11 is also a temporary register
 */
 main:
   bl init //init the audio
@@ -55,7 +56,7 @@ loop:
 drum_wave_set:
   str lr,[sp,#-4]!
   @ sp = sp-4, and store lr to the stack pointer
-  ldr r7,=#6000
+  ldr r7,=#24000
   bl drum_wave_snare_initial
   bl sound_pause
   bl drum_wave_drum_initial
@@ -157,7 +158,7 @@ sequence_up_initial:
   b sequence_up
 
 sequence_up:
-  ldr r0,=0x5F00 //positive amplitude
+  ldr r0,=0x5000 //positive amplitude
   bl BSP_AUDIO_OUT_Play_Sample
   add r5,#1
   cmp r5,r7
@@ -175,7 +176,7 @@ sequence_down_initial:
   b sequence_down
 
 sequence_down:
-  ldr r0,=0xA0FF //negative amplitude
+  ldr r0,=0xAFFF //negative amplitude
   bl BSP_AUDIO_OUT_Play_Sample
   add r5,#1
   cmp r5,r7
