@@ -89,7 +89,7 @@ drum_wave_set:
       snare:240hz,
       toms:200hz,
       cymbal:4000hz
-      harmony:300hz + 600hz
+      harmony:300hz + 150hz
   */
 
 change_time://change the r0(time)
@@ -340,6 +340,7 @@ drum_wave_drum_initial:
     r3 is how many times in the waveform cycle
     A:D:S:R = 1:2:4:1
     r9 is how many times in the attack part
+    A=r9, D=2*r9, S=4*r9, R=r9
   */
   push {r0-r3,r9}
   @ push r0,r1,r2,r3,r9 to the memory
